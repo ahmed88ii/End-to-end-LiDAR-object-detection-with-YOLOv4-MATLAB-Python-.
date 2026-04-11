@@ -28,8 +28,7 @@ iou_thresholds:
 
 # ---- Training (MATLAB: train_yolov4.m) ----------------------
 # These values are the exact thesis hyperparameters.
-# train_yolov4.m reads them directly — do not change without
-# updating the MATLAB script as well.
+# The YAML config and MATLAB training script are kept in sync manually.
 training:
   network:           "csp-darknet53-coco"  # backbone pre-trained on COCO
   input_size:        [416, 416, 3]
