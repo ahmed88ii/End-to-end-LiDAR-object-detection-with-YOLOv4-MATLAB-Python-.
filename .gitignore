@@ -1,0 +1,30 @@
+# Large data files — store via Git LFS or GitHub Releases
+data/raw/
+data/pcd/
+data/bev/images/
+data/bev/labels/
+
+# MATLAB autosave / temp
+*.asv
+*.m~
+matlab/trained_models/
+matlab/checkpoints/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.env
+venv/
+.venv/
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db

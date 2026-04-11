@@ -1,0 +1,65 @@
+# =============================================================
+# YOLOv4 LiDAR Object Detection — Configuration
+# Author : Ahmed Abdelkader
+# Project: End-to-End LiDAR Object Detection with YOLOv4 (MATLAB + Python)
+# =============================================================
+
+# ---- BEV Generation -----------------------------------------
+bev:
+  x_range:      [0.0, 70.4]   # metres, forward (away from sensor)
+  y_range:      [-40.0, 40.0] # metres, lateral (left/right)
+  z_range:      [-3.0, 1.0]   # metres, height band used for BEV encoding
+  resolution:   0.1            # metres per pixel → 704 × 800 output image
+  height_scale: 4.0            # z_range span (z_max - z_min) for normalisation
+
+# ---- Classes ------------------------------------------------
+classes:
+  - Car
+  - Pedestrian
+  - Cyclist
+
+# ---- BEV IoU thresholds per class ---------------------------
+# Used during evaluation (2-D axis-aligned BEV IoU, not full 3-D IoU).
+# Values follow KITTI convention for Car (0.7) and pedestrian/cyclist (0.5).
+iou_thresholds:
+  Car:        0.7
+  Pedestrian: 0.5
+  Cyclist:    0.5
+
+# ---- Training (MATLAB: train_yolov4.m) ----------------------
+# These values are the exact thesis hyperparameters.
+# train_yolov4.m reads them directly — do not change without
+# updating the MATLAB script as well.
+training:
+  network:           "csp-darknet53-coco"  # backbone pre-trained on COCO
+  input_size:        [416, 416, 3]
+  num_anchor_boxes:  6           # k-means clusters, split 2-2-2 across heads
+
+  # --- Thesis hyperparameters ---
+  max_epochs:         50
+  mini_batch_size:    16
+  learning_rate:      0.001
+  warmup_period:      500        # iterations with linearly ramped LR
+  l2_regularization:  0.001
+  penalty_threshold:  0.5        # Complex-YOLO confidence IoU penalty boundary
+  momentum:           0.9
+
+  # LR schedule: piecewise drop approximating cosine annealing post-warmup
+  lr_drop_factor:     0.1
+  # Drop epochs are computed dynamically in train_yolov4.m as:
+  #   [warmup_epochs + round(max_epochs*0.5), warmup_epochs + round(max_epochs*0.8)]
+
+  validation_frequency:  1       # validate every N epochs
+  checkpoint_frequency:  5       # save checkpoint every N epochs
+
+# ---- Inference / NMS ----------------------------------------
+inference:
+  confidence_threshold: 0.3
+  nms_threshold:        0.45
+
+# ---- Data Split ---------------------------------------------
+splits:
+  train: 0.70
+  val:   0.15
+  test:  0.15
+  seed:  42
