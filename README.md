@@ -4,7 +4,7 @@
 **License:** MIT  
 **Platform:** MATLAB R2021a+ · Python 3.8+
 
-> Master's thesis project implementing an end-to-end 3D object detection
+> Bachelor's thesis project implementing an end-to-end 3D object detection
 > pipeline for Livox LiDAR sensors.  Raw `.lvx` scans are converted to
 > Bird's-Eye-View (BEV) images, a Complex-YOLOv4 model is trained in
 > MATLAB, and performance is evaluated using AP, AOS, Precision, Recall,
